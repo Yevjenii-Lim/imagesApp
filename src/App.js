@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useEffect, useState } from 'react';
+import './assets/main.css';
+import ImageCard from './components/ImageCard';
+import ImageSearch from './components/ImageSearch';
 
 function App() {
+
+  let [images, setImages] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [term, setTerm] = useState('');
+
+  useEffect(() => {
+    fetch(`https://pixabay.com/api/?key=20634360-1ecb5d61018956e7910f92b5d&q=${term}&image_type=photo&pretty=true`)
+    .then(res => res.json())
+    .then(data => {
+      data.hits.forEach(i => i.showBig = true)
+      setImages(data.hits)
+      setLoading(false)
+    })
+  }, [term])
+let growImage = (id) => {
+  let findIndex = images.findIndex(i => i.id === id)
+  images = images.map(i => {
+    i.showBig = true
+    return i
+  })
+  images[findIndex].showBig = false
+  setImages(images)
+  console.log('adss')
+
+}
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <div className="container mx-auto">
+     <ImageSearch searchText={text => setTerm(text)}></ImageSearch>
+     {!isLoading && images.length === 0 && <h1 className="text-6xl text-center mx-auto mt-20">...not find</h1>}
+      {isLoading ? <h1 className="text-6xl text-center mx-auto mt-20">...Loading</h1> : <div className="grid md:grid-cols-3 gap-4 grid-cols-2">
+          {images.map(i => (
+            <ImageCard key={i.id} growImage={growImage}  image={i}>
+
+            </ImageCard>
+          ))}
+      </div>}
+   </div>
   );
 }
 
