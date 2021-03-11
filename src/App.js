@@ -27,13 +27,21 @@ let growImage = (id) => {
   })
   images[findIndex].showBig = false
   setImages(images)
-  console.log('adss')
+}
+let shrinkImage = (e) => {
 
+  if(e.target.nodeName === "DIV") {
+    setImages(images.map(i => {
+    i.showBig = true
+    return i
+  }))
+  }
+  
 }
 
 
   return (
-   <div className="container mx-auto">
+   <div className="container mx-auto"   onClick={(e) => shrinkImage(e)}>
      <ImageSearch searchText={text => setTerm(text)}></ImageSearch>
      {!isLoading && images.length === 0 && <h1 className="text-6xl text-center mx-auto mt-20">...not find</h1>}
       {isLoading ? <h1 className="text-6xl text-center mx-auto mt-20">...Loading</h1> : <div className="grid md:grid-cols-3 gap-4 grid-cols-2">

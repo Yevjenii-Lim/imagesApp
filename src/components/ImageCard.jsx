@@ -9,17 +9,17 @@ let Tag = ({tag}) => {
 
 
 const ImageCard = ({image, growImage}) => {
-    let [grow, setGrow] = useState(true)
+  
 
     let increaseHeight = () => {
-        setGrow(false)
+    
         growImage(image.id)
     }
     let decricHeight = () => {
    
     }
 
-    let height = image.showBig ? "h-20 duration-500 " : 'h-100 absolute bg-white top-2/4 left-2/4 transform -translate-y-2/4 -translate-x-2/4' 
+    let height = image.showBig ? "h-20 duration-500 z-0" : 'h-100 absolute bg-white top-2/4 left-2/4 transform -translate-y-2/4 -translate-x-2/4 z-30' 
 
     let clsess = "max-w-sm rounded overflow-hidden shadow-lg duration-500 bg-white " + height
     let tags = image.tags.split(',')
